@@ -83,7 +83,6 @@ header {
 .content {
     display: flex;
     flex-direction: column;
-    height: 8000px;
     width: 70%;
 }
 
