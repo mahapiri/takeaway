@@ -64,7 +64,7 @@ header {
     align-items: center;
 }
 
-.menu-section {
+.atf-section {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -194,4 +194,60 @@ header {
 footer {
     height: 100px;
     background-color: gray;
+}
+
+
+/* Menu Box */
+
+.menucard {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 32px;
+}
+.menubox {
+    height: 300px;
+    width: 70%;
+    border: 1px solid lightgray;
+    border-radius: 20px;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 32px;
+}
+
+.menu-img {
+    height: 256px;
+    width: 256px;
+    object-fit: cover;
+}
+
+.plus-button {
+    height: 22px;
+    margin-right: 16px;
+    border: 10px solid rgba(211, 211, 211, 0.2);
+    background-color: rgba(211, 211, 211, 0.2);
+    border-radius: 50%;
+}
+
+.info-button-menu {
+    height: 22px;
+}
+
+.menu-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.menu-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 16px;
+}
+
+.menu-img-section {
+    display: flex;
 }
