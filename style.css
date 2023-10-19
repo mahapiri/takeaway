@@ -14,8 +14,34 @@ header {
     box-shadow: 0px 7px 10px 0px lightgray;
 }
 
+.logo {
+    filter: brightness(0) invert(1);
+    height: 48px;
+}
+
+.logo-name {
+    text-decoration: none;
+    color: white;
+}
+
+.logo-name h1 {
+    font-size: 22px;
+}
+
+.headtitle {
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+}
+
+.lang-icon {
+    height: 68px;
+    width: 68px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
 .main-section {
-    z-index: 0;
     display: flex;
 }
 
