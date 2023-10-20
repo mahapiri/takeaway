@@ -70,13 +70,6 @@ function renderContent() {
     renderMenucard();
 }
 
-function renderCart() {
-    let cart = document.getElementById('cart');
-    cart.innerHTML = /*html*/`
-        <h2>Warenkorb</h2>    
-    `;
-}
-
 function renderMenucard() {
     let menucard = document.getElementById('menucard');
     menucard.innerHTML = '';
@@ -95,9 +88,45 @@ function renderMenucard() {
             </div>
             <div class="menu-img-section">
                 <img src="${article['menuImg']}" alt="" class="menu-img">
-                <img src="img/button/plus.png" alt="" class="plus-button">
+                <a href=""><img src="img/button/plus.png" alt="" class="plus-button" id="plus${i}"></a>
             </div>
         </div>    
     `;
     }
+}
+
+function renderCart() {
+    let cart = document.getElementById('cart');
+    cart.innerHTML = /*html*/`
+        <h2>Warenkorb</h2>
+        <div class="delivery-takeaway-img-section">
+            <div class="delivery-img-section">
+                <img src="img/button/bicycle.png" alt="delivery" class="bicycle-button">
+                <div>
+                    <p>Lieferung</p>
+                    <p>ab 11:00</p>
+                </div>
+            </div>
+            <div class="takeaway-img-section">
+                <img src="img/button/bag.png" alt="cart" class="takeaway-button">
+                <div>
+                    <p>Lieferung</p>
+                    <p>ab 11:00</p>
+                </div>
+            </div>
+        </div>
+        <div class="selectedMeal">
+
+            <div class="selectedMeal-section-title">
+                <span><b>1</b> Pizza Salami</span>
+                <p>5.99€</p>
+            </div>
+            <div class="selectedMeal-section-quantity">
+                <a href="" class="selectedMeal-notice">Anmerkung hinzufügen</a>
+                <a href="" class="less-meal-section"><div class="less-meal">-</div></a>
+                <div>Menge</div>
+                <a href="" class="add-meal-section"><div class="add-meal">+</div></a>
+            </div>
+        </div>    
+    `;
 }

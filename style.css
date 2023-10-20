@@ -176,20 +176,6 @@ header {
     height: 22px;
 }
 
-.cart {
-    display: flex;
-    justify-content: center;
-    padding-top: 16px;
-    height: 100vh;
-    width: 30%;
-    background-color: transparent;
-    position: sticky;
-    top: 0;
-    border-left: 2px solid lightgray;
-    box-shadow: 0px 7px 10px 0px lightgray;
-}
-
-
 footer {
     height: 100px;
     background-color: gray;
@@ -229,6 +215,14 @@ footer {
     border-radius: 50%;
 }
 
+.plus-button:hover {
+    height: 22px;
+    margin-right: 16px;
+    border: 10px solid rgba(211, 211, 211, 0.9);
+    background-color: rgba(211, 211, 211, 0.9);
+    border-radius: 50%;
+}
+
 .info-button-menu {
     height: 22px;
 }
@@ -249,4 +243,104 @@ footer {
 
 .menu-img-section {
     display: flex;
+}
+
+/* Cart-Section */
+
+.cart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 16px;
+    height: 100vh;
+    width: 30%;
+    background-color: transparent;
+    position: sticky;
+    top: 0;
+    border-left: 2px solid lightgray;
+    box-shadow: 0px 7px 10px 0px lightgray;
+}
+
+.bicycle-button {
+    height: 48px;
+}
+
+.takeaway-button {
+    height: 48px;
+}
+
+.delivery-img-section {
+    display: flex;
+}
+
+.takeaway-img-section {
+    display: flex;
+}
+
+.delivery-takeaway-img-section {
+    display: flex;
+    height: 120px;
+}
+
+.selectedMeal {
+    display: flex;
+    flex-direction: column;
+}
+
+.selectedMeal-section-title {
+    width: 388px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.selectedMeal-section-quantity {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 16px;
+}
+
+.selectedMeal-notice {
+    color: black;
+}
+
+.add-meal {
+    font-size: 22px;
+    font-weight: bold;
+    height: 22px;
+    width: 22px;
+    margin-right: 16px;
+    border: 10px solid rgba(211, 211, 211, 0.2);
+    background-color: rgba(211, 211, 211, 0.2);
+    border-radius: 50%;
+    text-align: center;
+    text-justify: center;
+}
+
+.less-meal {
+    font-size: 22px;
+    font-weight: bold;
+    height: 22px;
+    width: 22px;
+    margin-right: 16px;
+    border: 10px solid rgba(211, 211, 211, 0.2);
+    background-color: rgba(211, 211, 211, 0.2);
+    border-radius: 50%;
+    text-align: center;
+    text-justify: center;
+}
+
+.less-meal-section {
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.add-meal-section {
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
