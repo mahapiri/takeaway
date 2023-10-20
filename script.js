@@ -63,7 +63,7 @@ let articles =
             'price': 2.99,
             'currency': '€'
         }
-    ]
+    ];
 
 function renderContent() {
     renderCart();
