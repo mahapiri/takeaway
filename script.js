@@ -88,7 +88,7 @@ function renderMenucard() {
             </div>
             <div class="menu-img-section">
                 <img src="${article['menuImg']}" alt="" class="menu-img">
-                <a href="" onclick="addMenu(${i})"><img src="img/button/plus.png" alt="" class="plus-button" id="plus${i}"></a>
+                <a href="javascript:void(0)" onclick="addMenu(${i})"><img src="img/button/plus.png" alt="" class="plus-button" id="plus${i}"></a>
             </div>
         </div>    
     `;
@@ -115,17 +115,17 @@ function renderCart() {
                 </div>
             </div>
         </div>
-        <div id="getAddMenu"></div>
+        <div id="getaddmenu"></div>
     `;
 }
 
 function addMenu(i) {
-    let getAddMenu = document.getElementById('getAddMenu');
+    let getAddMenu = document.getElementById('getaddmenu');
     let article = articles[i];
     getAddMenu.innerHTML += /*html*/`
         <div class="selectedMeal">     
             <div class="selectedMeal-section-title">
-                <span><b>1</b>${article['menutitle']}</span>
+                <span><b>1 </b>${article['menutitle']}</span>
                 <p>5.99€</p>
             </div>
             <div class="selectedMeal-section-quantity">
@@ -135,5 +135,6 @@ function addMenu(i) {
                 <a href="" class="add-meal-section"><div class="add-meal">+</div></a>
             </div>
         </div>  
-    `;    
+    `;
+
 }
