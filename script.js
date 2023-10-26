@@ -63,7 +63,17 @@ let articles =
             'price': 2.99,
             'currency': '€'
         }
-    ];
+];
+
+let carts = 
+[
+    {
+        'meals': [],
+        'price': [],
+        'quantity': [],
+    },
+];
+
 
 function renderContent() {
     renderCart();
@@ -136,5 +146,8 @@ function addMenu(i) {
             </div>
         </div>  
     `;
+}
 
+function proofCart() {
+    let cart = 
 }
