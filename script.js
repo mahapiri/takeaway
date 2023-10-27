@@ -75,7 +75,6 @@ let articles =
 ];
 
 let cart = [];
-
 loadCart();
 
 function renderContent() {
@@ -102,7 +101,7 @@ function renderMenucard() {
             </div>
             <div class="menu-img-section">
                 <img src="${article['menuImg']}" alt="" class="menu-img">
-                <a href="" onclick="addToCart(${i})"><img src="img/button/plus.png" alt="" class="plus-button" id="plus${i}"></a>
+                <a href="javascript: void(0);" onclick="addToCart(${i})"><img src="img/button/plus.png" alt="" class="plus-button" id="plus${i}"></a>
             </div>
         </div>    
     `;
@@ -137,7 +136,7 @@ function renderCart() {
 function showCart() {
     let getAddMenu = document.getElementById('getaddmenu');
     let articles = cart.findIndex(function(cartItem) {
-        return cartItem.menus === cart.menus;
+        return cartItem.menu === cart.menus;
     });
     if (articles === -1) {
         getAddMenu.innerHTML = '<div>Warenkorb leer</div>';
@@ -147,12 +146,12 @@ function showCart() {
             getAddMenu.innerHTML += /*html*/`
             <div class="selectedMeal">     
                 <div class="selectedMeal-section-title">
-                    <span><b>${article['quantities']} </b>${article['menu']}</span>
-                    <p>${article['price']}</p>
+                    <span><b>${article['quantities']} </b>${article['menus']}</span>
+                    <p>${article['prices']}</p>
                 </div>
                 <div class="selectedMeal-section-quantity">
                     <a href="" class="selectedMeal-notice">Anmerkung hinzufügen</a>
-                    <a href="" class="less-meal-section"><div class="less-meal">-</div></a>
+                    <a href="" class="less-meal-section" onclick="deleteItem()"><div class="less-meal">-</div></a>
                     <div>Menge</div>
                     <a href="" class="add-meal-section"><div class="add-meal">+</div></a>
                 </div>
@@ -161,6 +160,7 @@ function showCart() {
         }
     }
     saveCart();
+    loadCart();
 }
 
 // function getValueFromInput (id) {
@@ -193,8 +193,9 @@ function addToCart(i) {
         cart[i].quantities++;
         cart[i].prices = articles[i].price * cart[i].quantities;
     }
-    showCart();
+    renderCart();
     saveCart();
+    loadCart();
 }
 
 function saveCart() {
@@ -209,4 +210,9 @@ function loadCart() {
         let cartAsText = localStorage.getItem('cart');
         cart = JSON.parse(cartAsText);
     }
+}
+
+function deleteItem(i) {
+    cart.splice(i, 1);
+    saveCart();
 }
