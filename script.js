@@ -129,8 +129,10 @@ function renderCart() {
             </div>
         </div>
         <div id="getaddmenu"></div>
+        <div id="total-section"></div>
     `;
     showCart();
+    showCartTotal();
 }
 
 function showCart() {
@@ -147,13 +149,13 @@ function showCart() {
             <div class="selectedMeal">     
                 <div class="selectedMeal-section-title">
                     <span><b>${article['quantities']} </b>${article['menus']}</span>
-                    <p>${article['prices']}</p>
+                    <p>${article['prices'].toFixed(2)}</p>
                 </div>
                 <div class="selectedMeal-section-quantity">
                     <a href="" class="selectedMeal-notice">Anmerkung hinzufügen</a>
-                    <a href="" class="less-meal-section" onclick="deleteItem()"><div class="less-meal">-</div></a>
+                    <a href="" class="less-meal-section" onclick="deleteItem(${i})"><div class="less-meal">-</div></a>
                     <div>Menge</div>
-                    <a href="" class="add-meal-section"><div class="add-meal">+</div></a>
+                    <a href="" class="add-meal-section"><div class="add-meal" onclick="addItem(${i})">+</div></a>
                 </div>
             </div>  
         `;       
@@ -162,21 +164,6 @@ function showCart() {
     saveCart();
     loadCart();
 }
-
-// function getValueFromInput (id) {
-//     let inputValue = document.getElementById(id).value;
-//     return inputValue;
-// }
-
-// function getMenuFromInput(i) {
-//     let menu = getValueFromInput(`menu${i}`).trim();
-//     return menu;
-// }
-
-// function getPriceFromInput(i) {
-//     let price = getValueFromInput(`price${i}`);
-//     return +price;
-// }
 
 function addToCart(i) {
     let article = articles[i];
@@ -190,8 +177,8 @@ function addToCart(i) {
             'quantities': article.quantity,
         });
     } else {
-        cart[i].quantities++;
-        cart[i].prices = articles[i].price * cart[i].quantities;
+        cart[cartIndex].quantities++;
+        cart[cartIndex].prices = articles[i].price * cart[i].quantities;
     }
     renderCart();
     saveCart();
@@ -213,6 +200,58 @@ function loadCart() {
 }
 
 function deleteItem(i) {
-    cart.splice(i, 1);
+    let item = cart[i];
+    if (item.quantities > 1) {
+        item.quantities--;
+    } else {
+        cart.splice(i, 1);
+    }
     saveCart();
+}
+
+function addItem(i) {
+    let item = cart[i];
+    item.quantities++;
+    item.prices = articles[i].price * item.quantities;
+    saveCart();
+    loadCart();
+    showSubtotal();
+}
+
+function showCartTotal() {
+    let total = document.getElementById('total-section');
+    total.innerHTML = /*html*/`
+        <table>
+            <tr id="subtotal"></tr>
+            <tr>
+                <td>Lieferkosten </td>
+                <td>05€</td>
+            </tr>
+            <tr>
+                <td>Gesamt</td>
+                <td>05€</td>
+            </tr>
+            <td>Kostenfreie Lieferung ab 30,00 €</td>
+        </table>
+    `;
+    showSubtotal();
+}
+
+function calcSubtotal() {
+    let sum = 0;
+    for (let i = 0; i < cart.length; i++) {
+        let items = cart[i];
+    
+        sum += items.prices;
+        return sum;
+    };
+}
+
+function showSubtotal() {
+    let content = document.getElementById('subtotal');
+    let subtotal = calcSubtotal();
+    content.innerHTML = /*html*/`
+        <td>Zwischensumme</td>
+        <td>${subtotal}</td>
+    `;
 }
