@@ -76,6 +76,7 @@ let articles =
 
 let cart = [];
 loadCart();
+let deliveryCost = 4.95;
 
 function renderContent() {
     renderCart();
@@ -130,9 +131,10 @@ function renderCart() {
         </div>
         <div id="getaddmenu"></div>
         <div id="total-section"></div>
+        <div id="order-section"></div>
     `;
     showCart();
-    showCartTotal();
+    showTotal();
 }
 
 function showCart() {
@@ -161,8 +163,7 @@ function showCart() {
         `;       
         }
     }
-    saveCart();
-    loadCart();
+    showTotal();
 }
 
 function addToCart(i) {
@@ -180,9 +181,10 @@ function addToCart(i) {
         cart[cartIndex].quantities++;
         cart[cartIndex].prices = articles[i].price * cart[i].quantities;
     }
-    renderCart();
     saveCart();
     loadCart();
+    renderCart();
+    showCartTotal();
 }
 
 function saveCart() {
@@ -197,12 +199,15 @@ function loadCart() {
         let cartAsText = localStorage.getItem('cart');
         cart = JSON.parse(cartAsText);
     }
+    showTotal();
 }
 
 function deleteItem(i) {
     let item = cart[i];
+    let article = articles[i];
     if (item.quantities > 1) {
         item.quantities--;
+        item.prices -= article.price;
     } else {
         cart.splice(i, 1);
     }
@@ -215,7 +220,7 @@ function addItem(i) {
     item.prices = articles[i].price * item.quantities;
     saveCart();
     loadCart();
-    showSubtotal();
+    showCartTotal();
 }
 
 function showCartTotal() {
@@ -223,18 +228,14 @@ function showCartTotal() {
     total.innerHTML = /*html*/`
         <table>
             <tr id="subtotal"></tr>
-            <tr>
-                <td>Lieferkosten </td>
-                <td>05€</td>
-            </tr>
-            <tr>
-                <td>Gesamt</td>
-                <td>05€</td>
-            </tr>
+            <tr id="delivery"></tr>
+            <tr id="total"></tr>
             <td>Kostenfreie Lieferung ab 30,00 €</td>
         </table>
     `;
     showSubtotal();
+    showDeliveryCost();
+    showTotal();
 }
 
 function calcSubtotal() {
@@ -242,9 +243,10 @@ function calcSubtotal() {
     for (let i = 0; i < cart.length; i++) {
         let items = cart[i];
     
-        sum += items.prices;
-        return sum;
+        sum = sum + items.prices;
+        
     };
+    return sum;
 }
 
 function showSubtotal() {
@@ -252,6 +254,39 @@ function showSubtotal() {
     let subtotal = calcSubtotal();
     content.innerHTML = /*html*/`
         <td>Zwischensumme</td>
-        <td>${subtotal}</td>
+        <td>${subtotal.toFixed(2)}</td>
+    `;
+    return subtotal;
+}
+
+function showDeliveryCost() {
+    let content = document.getElementById('delivery');
+    let delivery = deliveryCost;
+    content.innerHTML = /*html*/`
+        <td>Lieferkosten</td>
+        <td>${delivery.toFixed(2)}</td>
+    `;
+    return delivery;
+}
+
+function showTotal() {
+    let content = document.getElementById('total');
+    let total = showSubtotal() + showDeliveryCost();
+    content.innerHTML = /*html*/`
+        <td>Gesamtkosten</td>
+        <td>${total.toFixed(2)}</td>
+    `;
+    return total;
+}
+
+function orderNow() {
+    let content = document.getElementById('order-section');
+    let total = showTotal();
+    content.innerHTML = /*html*/`
+        <button>
+            <p>Bezahlen</p>
+            <p>(${total.toFixed(2)})</p>
+        </button>
     `;
 }
+
