@@ -134,24 +134,24 @@ function renderCart() {
         <div id="order-section"></div>
     `;
     showCart();
-    showTotal();
 }
 
 function showCart() {
     let getAddMenu = document.getElementById('getaddmenu');
-    let articles = cart.findIndex(function(cartItem) {
-        return cartItem.menu === cart.menus;
+    let article = cart.findIndex(function(articles) {
+        return articles.menu === cart.menus;
     });
-    if (articles === -1) {
+    if (article === -1) {
         getAddMenu.innerHTML = '<div>Warenkorb leer</div>';
     } else {
+        getAddMenu.innerHTML = '';
         for (let i = 0; i < cart.length; i++) {
-            let article = cart[i];
+            let item = cart[i];
             getAddMenu.innerHTML += /*html*/`
             <div class="selectedMeal">     
                 <div class="selectedMeal-section-title">
-                    <span><b>${article['quantities']} </b>${article['menus']}</span>
-                    <p>${article['prices'].toFixed(2)}</p>
+                    <span><b>${item['quantities']} </b>${item['menus']}</span>
+                    <p>${item['prices'].toFixed(2)}</p>
                 </div>
                 <div class="selectedMeal-section-quantity">
                     <a href="" class="selectedMeal-notice">Anmerkung hinzufügen</a>
@@ -163,13 +163,13 @@ function showCart() {
         `;       
         }
     }
-    showTotal();
+    showCartTotal();
 }
 
 function addToCart(i) {
     let article = articles[i];
-    let cartIndex = cart.findIndex(function(cartItem) {
-        return cartItem.menus === article.menu;
+    let cartIndex = cart.findIndex(function(item) {
+        return item.menus === article.menu;
     });
     if (cartIndex === -1) {
         cart.push({
@@ -183,7 +183,7 @@ function addToCart(i) {
     }
     saveCart();
     loadCart();
-    renderCart();
+    showCart();
     showCartTotal();
 }
 
@@ -199,7 +199,6 @@ function loadCart() {
         let cartAsText = localStorage.getItem('cart');
         cart = JSON.parse(cartAsText);
     }
-    showTotal();
 }
 
 function deleteItem(i) {
@@ -211,7 +210,6 @@ function deleteItem(i) {
     } else {
         cart.splice(i, 1);
     }
-    saveCart();
 }
 
 function addItem(i) {
@@ -220,7 +218,7 @@ function addItem(i) {
     item.prices = articles[i].price * item.quantities;
     saveCart();
     loadCart();
-    showCartTotal();
+    renderCart();
 }
 
 function showCartTotal() {
@@ -236,6 +234,7 @@ function showCartTotal() {
     showSubtotal();
     showDeliveryCost();
     showTotal();
+    orderNow();
 }
 
 function calcSubtotal() {
