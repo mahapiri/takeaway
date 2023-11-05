@@ -3,9 +3,8 @@ let articles =
         {
             'menu': 'Pizza Prosciutto',
             'menuImg': 'img/meal/prosciutto.jpg',
-            'description': 'leckere Pizza',
+            'description': 'mit extra viel saftigem Kochhinterschinken (zerkleinert)',
             'price': 5.99,
-            'currency': '€',
             'quantity': 1
         },
         {
@@ -13,7 +12,6 @@ let articles =
             'menuImg': 'img/meal/tomato.jpg',
             'description': 'leckere tomaten Pizza',
             'price': 6.99,
-            'currency': '€',
             'quantity': 1
         },
         {
@@ -21,7 +19,6 @@ let articles =
             'menuImg': 'img/meal/chicken.jpg',
             'description': 'leckere hühnchen Pizza',
             'price': 9.99,
-            'currency': '€',
             'quantity': 1
         },
         {
@@ -29,7 +26,6 @@ let articles =
             'menuImg': 'img/meal/wedges.jpg',
             'description': 'leckere Wedges',
             'price': 4.99,
-            'currency': '€',
             'quantity': 1
         },
         {
@@ -37,7 +33,6 @@ let articles =
             'menuImg': 'img/meal/salad.jpg',
             'description': 'leckerer Salat',
             'price': 4.99,
-            'currency': '€',
             'quantity': 1
         },
         {
@@ -45,7 +40,6 @@ let articles =
             'menuImg': 'img/meal/joghurt.png',
             'description': 'leckerer Dip',
             'price': 1.99,
-            'currency': '€',
             'quantity': 1
         },
         {
@@ -53,7 +47,6 @@ let articles =
             'menuImg': 'img/meal/cola.png',
             'description': 'leckere Cola',
             'price': 2.99,
-            'currency': '€',
             'quantity': 1
         },
         {
@@ -61,7 +54,6 @@ let articles =
             'menuImg': 'img/meal/fanta.png',
             'description': 'leckere Fanta',
             'price': 2.99,
-            'currency': '€',
             'quantity': 1
         },
         {
@@ -69,7 +61,6 @@ let articles =
             'menuImg': 'img/meal/vitamin-water.png',
             'description': 'leckeres Vitamin Wasser',
             'price': 2.99,
-            'currency': '€',
             'quantity': 1
         }
 ];
@@ -90,20 +81,22 @@ function renderMenucard() {
     for (let i = 0; i < articles.length; i++) {
         let article = articles[i];
         menucard.innerHTML += /*html*/`
-        <div class="menubox">
+        <div class="menubox" id="menubox${i}">
             <div class="menu-section">
                 <div class="menu-title">
-                    <h4 id="menu${i}">${article['menu']}</h4>
-                    <img src="img/button/info.png" alt="info button" class="info-button-menu">
+                    <div class="menu-title-undersection">
+                        <h4 id="menu${i}">${article['menu']}</h4>
+                        <img src="img/button/info.png" alt="info button" class="info-button-menu">
+                    </div>
+                    <span>${article['description']}</span>
                 </div>
-                <span>${article['description']}</span>
-                <span id="price${i}">${article['price']}</span>
-                <span>${article['currency']}</span>
+
+                <span id="price${i}"><b>${article['price']} €</b></span>
             </div>
             <div class="menu-img-section">
                 <img src="${article['menuImg']}" alt="" class="menu-img">
-                <a href="javascript: void(0);" onclick="addToCart(${i})"><img src="img/button/plus.png" alt="" class="plus-button" id="plus${i}"></a>
             </div>
+            <a href="javascript: void(0);" onclick="addToCart(${i})"><img src="img/button/plus.png" alt="" class="plus-button" id="plus${i}"></a>
         </div>    
     `;
     }
@@ -150,8 +143,8 @@ function showCart() {
             getAddMenu.innerHTML += /*html*/`
             <div class="selectedMeal">     
                 <div class="selectedMeal-section-title">
-                    <span><b>${item['quantities']} </b>${item['menus']}</span>
-                    <p>${item['prices'].toFixed(2)}</p>
+                    <span><b>${item['quantities']}x </b>${item['menus']}</span>
+                    <p>${item['prices'].toFixed(2)} €</p>
                 </div>
                 <div class="selectedMeal-section-quantity">
                     <a href="" class="selectedMeal-notice">Anmerkung hinzufügen</a>
