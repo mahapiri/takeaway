@@ -203,6 +203,9 @@ function deleteItem(i) {
     } else {
         cart.splice(i, 1);
     }
+    saveCart();
+    loadCart();
+    renderCart();
 }
 
 function addItem(i) {
@@ -229,6 +232,7 @@ function showCartTotal() {
     showTotal();
     orderNow();
 }
+    
 
 function calcSubtotal() {
     let sum = 0;
