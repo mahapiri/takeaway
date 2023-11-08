@@ -163,6 +163,7 @@ function addToCart(i) {
     let article = articles[i];
     let cartIndex = cart.findIndex(
         function(item) {
+            item = cart[i];
         return item.menus === article.menu;
     });
     if (cartIndex === -1) {
