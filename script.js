@@ -66,8 +66,8 @@ let articles =
 ];
 
 let cart = [];
-loadCart();
 let deliveryCost = 4.95;
+loadCart();
 
 function renderContent() {
     renderCart();
@@ -103,22 +103,22 @@ function renderMenucard() {
 }
 
 function renderCart() {
-    let cart = document.getElementById('cart');
-    cart.innerHTML = /*html*/`
+    let cartItem = document.getElementById('cart');
+    cartItem.innerHTML = /*html*/`
         <h2>Warenkorb</h2>
         <div class="delivery-takeaway-img-section">
             <div class="delivery-img-section">
                 <img src="img/button/bicycle.png" alt="delivery" class="bicycle-button">
                 <div>
                     <p>Lieferung</p>
-                    <p>ab 11:00</p>
+                    <p>30-45 min</p>
                 </div>
             </div>
             <div class="takeaway-img-section">
                 <img src="img/button/bag.png" alt="cart" class="takeaway-button">
                 <div>
-                    <p>Lieferung</p>
-                    <p>ab 11:00</p>
+                    <p>Abholung</p>
+                    <p>15 min</p>
                 </div>
             </div>
         </div>
@@ -131,10 +131,9 @@ function renderCart() {
 
 function showCart() {
     let getAddMenu = document.getElementById('getaddmenu');
-    let article = cart.findIndex(function(articles) {
-        return articles.menu === cart.menus;
-    });
-    if (article === -1) {
+    getAddMenu.innerHTML = '';
+
+    if (cart.length === 0) {
         getAddMenu.innerHTML = '<div>Warenkorb leer</div>';
     } else {
         getAddMenu.innerHTML = '';
@@ -148,20 +147,22 @@ function showCart() {
                 </div>
                 <div class="selectedMeal-section-quantity">
                     <a href="" class="selectedMeal-notice">Anmerkung hinzufügen</a>
-                    <a href="" class="less-meal-section" onclick="deleteItem(${i})"><div class="less-meal">-</div></a>
+                    <a href="javascript: void(0);" class="less-meal-section" onclick="deleteItem(${i})"><div class="less-meal">-</div></a>
                     <div>Menge</div>
-                    <a href="" class="add-meal-section"><div class="add-meal" onclick="addItem(${i})">+</div></a>
+                    <a href="javascript: void(0);" class="add-meal-section" onclick="addItem(${i})"><div class="add-meal" >+</div></a>
                 </div>
             </div>  
         `;       
         }
+        showCartTotal();
     }
-    showCartTotal();
+    
 }
 
 function addToCart(i) {
     let article = articles[i];
-    let cartIndex = cart.findIndex(function(item) {
+    let cartIndex = cart.findIndex(
+        function(item) {
         return item.menus === article.menu;
     });
     if (cartIndex === -1) {
@@ -226,6 +227,7 @@ function showCartTotal() {
             <tr id="total"></tr>
             <td>Kostenfreie Lieferung ab 30,00 €</td>
         </table>
+        <div id="order-section"></div>
     `;
     showSubtotal();
     showDeliveryCost();
@@ -252,7 +254,6 @@ function showSubtotal() {
         <td>Zwischensumme</td>
         <td>${subtotal.toFixed(2)}</td>
     `;
-    return subtotal;
 }
 
 function showDeliveryCost() {
@@ -262,22 +263,25 @@ function showDeliveryCost() {
         <td>Lieferkosten</td>
         <td>${delivery.toFixed(2)}</td>
     `;
-    return delivery;
 }
 
 function showTotal() {
     let content = document.getElementById('total');
-    let total = showSubtotal() + showDeliveryCost();
+    let totalCost = calcTotal();
     content.innerHTML = /*html*/`
         <td>Gesamtkosten</td>
-        <td>${total.toFixed(2)}</td>
+        <td>${totalCost.toFixed(2)}</td>
     `;
-    return total;
+}
+
+function calcTotal() {
+    let totalCost = deliveryCost + calcSubtotal();
+    return totalCost;
 }
 
 function orderNow() {
     let content = document.getElementById('order-section');
-    let total = showTotal();
+    let total = calcTotal();
     content.innerHTML = /*html*/`
         <button>
             <p>Bezahlen</p>
