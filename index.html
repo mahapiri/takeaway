@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="fonts.css" />
     <script src="script.js"></script>
   </head>
-  <body onload="renderContent()">
+  <body onload="renderContent()" class="body-info">
     <header class="atf">
         <div class="logo-section">
           <img src="img/button/logo.png" alt="takeaway logo" class="logo">
@@ -44,18 +44,14 @@
           </div>
         </div>
         <div class="content-menu">
-          <img src="img/button/search.png" alt="search" class="search-button">
-          <a href="#menubox0">Pizza</a>
-          <a href="#menubox3">Beilagen</a>
-          <a href="#menubox6">Getränke</a>
-          <img src="img/button/forward.png" alt="forward" class="forward-button">  
+          <a href="#menubox0" class="content-menu-b"><b>Pizza</b></a>
+          <a href="#menubox3" class="content-menu-b"><b>Beilagen</b></a>
+          <a href="#menubox6" class="content-menu-b"><b>Getränke</b></a>
         </div>
         <div class="menucard" id="menucard"></div>
       </div>
-      <div class="cart" id="cart">
-      </div>
+      <div class="cart" id="cart"></div>
     </div>
-
-    <footer></footer>
+    <footer>copyright 2023 Piri</footer>
   </body>
 </html>

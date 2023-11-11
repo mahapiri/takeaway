@@ -3,63 +3,72 @@ let articles =
         {
             'menu': 'Pizza Prosciutto',
             'menuImg': 'img/meal/prosciutto.jpg',
-            'description': 'mit extra viel saftigem Kochhinterschinken (zerkleinert)',
+            'description': 'Luftgetrockneter Schinken, Mozzarella, Tomatensauce – ein köstlicher Gaumenschmaus!',
+            'info': 'Pizzateig, Tomatensauce, Mozzarella, Prosciutto, Rucola, Knoblauch, Basilikum, Parmesan, Olivenöl',
             'price': 5.99,
             'quantity': 1
         },
         {
             'menu': 'Pizza Tomato',
             'menuImg': 'img/meal/tomato.jpg',
-            'description': 'leckere tomaten Pizza',
+            'description': 'Frische Tomaten, Mozzarella, Basilikum, Olivenöl. Ein lebendiges, geschmackvolles Vergnügen!',
+            'info': 'Pizzateig, Tomatensauce, frische Tomaten, Mozzarella, Basilikum, Olivenöl, Salz, Pfeffer',
             'price': 6.99,
             'quantity': 1
         },
         {
             'menu': 'Pizza Chicken',
             'menuImg': 'img/meal/chicken.jpg',
-            'description': 'leckere hühnchen Pizza',
+            'description': 'Zarte Hähnchenbrust, Paprika, Zwiebeln, BBQ-Sauce, Mozzarella. Ein herzhaftes Geschmackserlebnis!',
+            'info': 'Pizzateig, Tomatensauce, Hähnchenbrust, Mozzarella, Paprika, Zwiebeln, BBQ-Sauce, Oregano',
             'price': 9.99,
             'quantity': 1
         },
         {
-            'menu': 'Wedges',
+            'menu': 'Pommes Frites',
             'menuImg': 'img/meal/wedges.jpg',
-            'description': 'leckere Wedges',
+            'description': 'Knusprig goldene Kartoffelstäbchen, perfekt gewürzt. Ein unwiderstehlicher Begleiter für jede Mahlzeit!',
+            'info': 'Kartoffeln, Pflanzenöl, Salz',
             'price': 4.99,
             'quantity': 1
         },
         {
             'menu': 'Salat',
             'menuImg': 'img/meal/salad.jpg',
-            'description': 'leckerer Salat',
+            'description': 'Frischer Römersalat, gegrillte Hähnchenbrust, Croutons, Parmesan, mit köstlichem Caesar-Dressing. Eine vollmundige Geschmacksexplosion!',
+            'info': 'Römersalat, Caesar-Dressing, Hähnchenbrust, Croutons, Parmesan, Zitrone',
             'price': 4.99,
             'quantity': 1
         },
         {
             'menu': 'Dip - Joghurt',
             'menuImg': 'img/meal/joghurt.png',
-            'description': 'leckerer Dip',
+            'description': 'Cremiger Joghurt mit Knoblauch, Zitrone und frischen Kräutern. Die perfekte, erfrischende Begleitung für Ihre Speisen.',
+            'info': 'Joghurt, Knoblauch, Zitrone, Salz, Pfeffer, frische Kräuter (wie Petersilie oder Dill)',
             'price': 1.99,
             'quantity': 1
         },
         {
             'menu': 'Cola',
             'menuImg': 'img/meal/cola.png',
-            'description': 'leckere Cola',
+            'description': 'Klassische Erfrischung mit spritziger Kohlensäure, perfekt gekühlt. Ein belebendes Getränk für jeden Genussmoment.',
+            'info': 'Cola mit Kohlensäure, Eiswürfel',
             'price': 2.99,
             'quantity': 1
         },
         {
             'menu': 'Fanta',
             'menuImg': 'img/meal/fanta.png',
-            'description': 'leckere Fanta',
+            'description': 'Fruchtig-spritziges Erlebnis mit der perfekten Balance aus Süße und Frische. Genießen Sie den fruchtigen Geschmack in jeder Schluck!',
+            'info': 'Fanta mit Kohlensäure, Eiswürfel',
             'price': 2.99,
             'quantity': 1
         },
         {
             'menu': 'Vitamin Water',
             'menuImg': 'img/meal/vitamin-water.png',
-            'description': 'leckeres Vitamin Wasser',
+            'description': 'Erfrischendes Getränk angereichert mit Vitaminen und mineralisiertem Wasser für einen belebenden und gesunden Genuss.',
+            'info': 'Vitamin Water ohne Kohlensäure, Eiswürfel',
             'price': 2.99,
             'quantity': 1
         }
@@ -90,15 +99,14 @@ function renderMenucard() {
                     </div>
                     <span>${article['description']}</span>
                 </div>
-
-                <span id="price${i}"><b>${article['price']} €</b></span>
+                <span id="price${i}"><b class="price-sign">${article['price']} €</b></span>
             </div>
             <div class="menu-img-section">
                 <img src="${article['menuImg']}" alt="" class="menu-img">
             </div>
-            <a href="javascript: void(0);" onclick="addToCart(${i})"><img src="img/button/plus.png" alt="" class="plus-button" id="plus${i}"></a>
+            <a href="#" onclick="addToCart(${i})"><img src="img/button/plus.png" alt="" class="plus-button" id="plus${i}"></a>
         </div>    
-    `;
+        `;
     }
 }
 
@@ -118,12 +126,12 @@ function renderCart() {
                 <img src="img/button/bag.png" alt="cart" class="takeaway-button">
                 <div>
                     <p>Abholung</p>
-                    <p>15 min</p>
+                    <p>Nicht möglich</p>
                 </div>
             </div>
         </div>
-        <div id="getaddmenu"></div>
-        <div id="total-section"></div>
+        <div id="getaddmenu" class="cart-menu-card"></div>
+        <div id="total-section" class="total-section"></div>
         <div id="order-section"></div>
     `;
     showCart();
@@ -143,14 +151,20 @@ function showCart() {
             <div class="selectedMeal">     
                 <div class="selectedMeal-section-title">
                     <span><b>${item['quantities']}x </b>${item['menus']}</span>
-                    <p>${item['prices'].toFixed(2)} €</p>
+                    <p><b>${item['prices'].toFixed(2)} €</b></p>
                 </div>
-                <div class="selectedMeal-section-quantity">
-                    <a href="" class="selectedMeal-notice">Anmerkung hinzufügen</a>
-                    <a href="javascript: void(0);" class="less-meal-section" onclick="deleteItem(${i})"><div class="less-meal">-</div></a>
-                    <div>Menge</div>
-                    <a href="javascript: void(0);" class="add-meal-section" onclick="addItem(${i})"><div class="add-meal" >+</div></a>
+                <div>
+                    <div class="selectedMeal-section-quantity">
+                        <a href="" class="selectedMeal-notice">Anmerkung hinzufügen</a>
+                    <div class="quantity-cart-card">
+                        <a href="#" class="less-meal-section" onclick="deleteItem(${i})"><div class="less-meal">-</div></a>
+                        <div>Menge</div>
+                        <a href="#" class="add-meal-section" onclick="addItem(${i})"><div class="add-meal" >+</div></a>
+                    </div>
+                        
+                    </div>
                 </div>
+                
             </div>  
         `;       
         }
@@ -163,18 +177,17 @@ function addToCart(i) {
     let article = articles[i];
     let cartIndex = cart.findIndex(
         function(item) {
-            item = cart[i];
         return item.menus === article.menu;
     });
-    if (cartIndex === -1) {
+    if (cartIndex !== -1) {
+        cart[cartIndex].quantities++;
+        cart[cartIndex].prices = articles[i].price * cart[i].quantities;
+    } else {
         cart.push({
             'menus': article.menu,
             'prices': article.price,
             'quantities': article.quantity,
         });
-    } else {
-        cart[cartIndex].quantities++;
-        cart[cartIndex].prices = articles[i].price * cart[i].quantities;
     }
     saveCart();
     loadCart();
@@ -228,7 +241,7 @@ function showCartTotal() {
             <tr id="total"></tr>
             <td>Kostenfreie Lieferung ab 30,00 €</td>
         </table>
-        <div id="order-section"></div>
+        <div id="order-section" class="order-section"></div>
     `;
     showSubtotal();
     showDeliveryCost();
@@ -260,11 +273,20 @@ function showSubtotal() {
 function showDeliveryCost() {
     let content = document.getElementById('delivery');
     let delivery = deliveryCost;
-    content.innerHTML = /*html*/`
+    let subtotal = calcSubtotal();
+    if (subtotal > 30) {
+        content.innerHTML = /*html*/`
+        <td>Lieferkosten</td>
+        <td>Kostenlose Lieferung</td>
+    `;
+    } else {
+        content.innerHTML = /*html*/`
         <td>Lieferkosten</td>
         <td>${delivery.toFixed(2)}</td>
     `;
+    }
 }
+    
 
 function showTotal() {
     let content = document.getElementById('total');
@@ -276,18 +298,23 @@ function showTotal() {
 }
 
 function calcTotal() {
-    let totalCost = deliveryCost + calcSubtotal();
-    return totalCost;
+    let subtotal = calcSubtotal();
+    
+    if (subtotal > 30) {
+        return subtotal;
+    } else {
+        let totalCost = deliveryCost + calcSubtotal();
+        return totalCost;
+    }
 }
 
 function orderNow() {
     let content = document.getElementById('order-section');
     let total = calcTotal();
     content.innerHTML = /*html*/`
-        <button>
-            <p>Bezahlen</p>
-            <p>(${total.toFixed(2)})</p>
+        <button class="order-button">
+            <p><b>Bezahlen</b></p>
+            <p><b>(${total.toFixed(2)} €)</b></p>
         </button>
     `;
 }
-
