@@ -4,7 +4,6 @@ let articles =
             'menu': 'Pizza Prosciutto',
             'menuImg': 'img/meal/prosciutto.jpg',
             'description': 'Luftgetrockneter Schinken, Mozzarella, Tomatensauce – ein köstlicher Gaumenschmaus!',
-            'info': 'Pizzateig, Tomatensauce, Mozzarella, Prosciutto, Rucola, Knoblauch, Basilikum, Parmesan, Olivenöl',
             'price': 5.99,
             'quantity': 1
         },
@@ -12,7 +11,6 @@ let articles =
             'menu': 'Pizza Tomato',
             'menuImg': 'img/meal/tomato.jpg',
             'description': 'Frische Tomaten, Mozzarella, Basilikum, Olivenöl. Ein lebendiges, geschmackvolles Vergnügen!',
-            'info': 'Pizzateig, Tomatensauce, frische Tomaten, Mozzarella, Basilikum, Olivenöl, Salz, Pfeffer',
             'price': 6.99,
             'quantity': 1
         },
@@ -20,7 +18,6 @@ let articles =
             'menu': 'Pizza Chicken',
             'menuImg': 'img/meal/chicken.jpg',
             'description': 'Zarte Hähnchenbrust, Paprika, Zwiebeln, BBQ-Sauce, Mozzarella. Ein herzhaftes Geschmackserlebnis!',
-            'info': 'Pizzateig, Tomatensauce, Hähnchenbrust, Mozzarella, Paprika, Zwiebeln, BBQ-Sauce, Oregano',
             'price': 9.99,
             'quantity': 1
         },
@@ -28,7 +25,6 @@ let articles =
             'menu': 'Pommes Frites',
             'menuImg': 'img/meal/wedges.jpg',
             'description': 'Knusprig goldene Kartoffelstäbchen, perfekt gewürzt. Ein unwiderstehlicher Begleiter für jede Mahlzeit!',
-            'info': 'Kartoffeln, Pflanzenöl, Salz',
             'price': 4.99,
             'quantity': 1
         },
@@ -36,7 +32,6 @@ let articles =
             'menu': 'Salat',
             'menuImg': 'img/meal/salad.jpg',
             'description': 'Frischer Römersalat, gegrillte Hähnchenbrust, Croutons, Parmesan, mit köstlichem Caesar-Dressing. Eine vollmundige Geschmacksexplosion!',
-            'info': 'Römersalat, Caesar-Dressing, Hähnchenbrust, Croutons, Parmesan, Zitrone',
             'price': 4.99,
             'quantity': 1
         },
@@ -44,7 +39,6 @@ let articles =
             'menu': 'Dip - Joghurt',
             'menuImg': 'img/meal/joghurt.png',
             'description': 'Cremiger Joghurt mit Knoblauch, Zitrone und frischen Kräutern. Die perfekte, erfrischende Begleitung für Ihre Speisen.',
-            'info': 'Joghurt, Knoblauch, Zitrone, Salz, Pfeffer, frische Kräuter (wie Petersilie oder Dill)',
             'price': 1.99,
             'quantity': 1
         },
@@ -52,7 +46,6 @@ let articles =
             'menu': 'Cola',
             'menuImg': 'img/meal/cola.png',
             'description': 'Klassische Erfrischung mit spritziger Kohlensäure, perfekt gekühlt. Ein belebendes Getränk für jeden Genussmoment.',
-            'info': 'Cola mit Kohlensäure, Eiswürfel',
             'price': 2.99,
             'quantity': 1
         },
@@ -60,7 +53,6 @@ let articles =
             'menu': 'Fanta',
             'menuImg': 'img/meal/fanta.png',
             'description': 'Fruchtig-spritziges Erlebnis mit der perfekten Balance aus Süße und Frische. Genießen Sie den fruchtigen Geschmack in jeder Schluck!',
-            'info': 'Fanta mit Kohlensäure, Eiswürfel',
             'price': 2.99,
             'quantity': 1
         },
@@ -68,7 +60,6 @@ let articles =
             'menu': 'Vitamin Water',
             'menuImg': 'img/meal/vitamin-water.png',
             'description': 'Erfrischendes Getränk angereichert mit Vitaminen und mineralisiertem Wasser für einen belebenden und gesunden Genuss.',
-            'info': 'Vitamin Water ohne Kohlensäure, Eiswürfel',
             'price': 2.99,
             'quantity': 1
         }
@@ -81,6 +72,8 @@ loadCart();
 function renderContent() {
     renderCart();
     renderMenucard();
+    init();
+    
 }
 
 function renderMenucard() {
@@ -99,12 +92,12 @@ function renderMenucard() {
                     </div>
                     <span>${article['description']}</span>
                 </div>
-                <span id="price${i}"><b class="price-sign">${article['price']} €</b></span>
+                <span id="price${i}" class="price-sign"><b>${article['price']} €</b></span>
             </div>
             <div class="menu-img-section">
                 <img src="${article['menuImg']}" alt="" class="menu-img">
             </div>
-            <a href="#" onclick="addToCart(${i})"><img src="img/button/plus.png" alt="" class="plus-button" id="plus${i}"></a>
+            <a href="javascript: void(0);" onclick="addToCart(${i})"><img src="img/button/plus.png" alt="" class="plus-button" id="plus${i}"></a>
         </div>    
         `;
     }
@@ -113,6 +106,7 @@ function renderMenucard() {
 function renderCart() {
     let cartItem = document.getElementById('cart');
     cartItem.innerHTML = /*html*/`
+        <div class="close-section d-none" id="close-section"><a href="#" class="close-cart" onclick="closeCart()">X</a></div>
         <h2>Warenkorb</h2>
         <div class="delivery-takeaway-img-section">
             <div class="delivery-img-section">
@@ -126,7 +120,7 @@ function renderCart() {
                 <img src="img/button/bag.png" alt="cart" class="takeaway-button">
                 <div>
                     <p>Abholung</p>
-                    <p>Nicht möglich</p>
+                    <p></p>
                 </div>
             </div>
         </div>
@@ -142,7 +136,7 @@ function showCart() {
     getAddMenu.innerHTML = '';
 
     if (cart.length === 0) {
-        getAddMenu.innerHTML = '<div>Warenkorb leer</div>';
+        getAddMenu.innerHTML = '<div class="empty-cart"><img src=""><div><b>Wählen Sie ein Essen</br>aus unserem Menü aus</b></div></div>';
     } else {
         getAddMenu.innerHTML = '';
         for (let i = 0; i < cart.length; i++) {
@@ -153,18 +147,11 @@ function showCart() {
                     <span><b>${item['quantities']}x </b>${item['menus']}</span>
                     <p><b>${item['prices'].toFixed(2)} €</b></p>
                 </div>
-                <div>
-                    <div class="selectedMeal-section-quantity">
-                        <a href="" class="selectedMeal-notice">Anmerkung hinzufügen</a>
-                    <div class="quantity-cart-card">
-                        <a href="#" class="less-meal-section" onclick="deleteItem(${i})"><div class="less-meal">-</div></a>
+                <div class="quantity-cart-card">
+                        <a href="javascript: void(0);" class="less-meal-section" onclick="deleteItem(${i})"><div class="less-meal">-</div></a>
                         <div>Menge</div>
-                        <a href="#" class="add-meal-section" onclick="addItem(${i})"><div class="add-meal" >+</div></a>
-                    </div>
-                        
-                    </div>
-                </div>
-                
+                        <a href="javascript: void(0);" class="add-meal-section" onclick="addItem(${i})"><div class="add-meal" >+</div></a>
+                </div>                
             </div>  
         `;       
         }
@@ -181,7 +168,7 @@ function addToCart(i) {
     });
     if (cartIndex !== -1) {
         cart[cartIndex].quantities++;
-        cart[cartIndex].prices = articles[i].price * cart[i].quantities;
+        cart[cartIndex].prices = article.price * cart[cartIndex].quantities;
     } else {
         cart.push({
             'menus': article.menu,
@@ -193,6 +180,7 @@ function addToCart(i) {
     loadCart();
     showCart();
     showCartTotal();
+    cartButtonMedia();
 }
 
 function saveCart() {
@@ -239,7 +227,7 @@ function showCartTotal() {
             <tr id="subtotal"></tr>
             <tr id="delivery"></tr>
             <tr id="total"></tr>
-            <td>Kostenfreie Lieferung ab 30,00 €</td>
+            <td><b class="free-delivery">Kostenfreie Lieferung ab 30.00 €</b></td>
         </table>
         <div id="order-section" class="order-section"></div>
     `;
@@ -265,8 +253,8 @@ function showSubtotal() {
     let content = document.getElementById('subtotal');
     let subtotal = calcSubtotal();
     content.innerHTML = /*html*/`
-        <td>Zwischensumme</td>
-        <td>${subtotal.toFixed(2)}</td>
+        <td><b>Zwischensumme</b></td>
+        <td>${subtotal.toFixed(2)} €</td>
     `;
 }
 
@@ -276,13 +264,13 @@ function showDeliveryCost() {
     let subtotal = calcSubtotal();
     if (subtotal > 30) {
         content.innerHTML = /*html*/`
-        <td>Lieferkosten</td>
+        <td><b>Lieferkosten</b></td>
         <td>Kostenlose Lieferung</td>
     `;
     } else {
         content.innerHTML = /*html*/`
-        <td>Lieferkosten</td>
-        <td>${delivery.toFixed(2)}</td>
+        <td><b>Lieferkosten</b></td>
+        <td>${delivery.toFixed(2)} €</td>
     `;
     }
 }
@@ -292,8 +280,8 @@ function showTotal() {
     let content = document.getElementById('total');
     let totalCost = calcTotal();
     content.innerHTML = /*html*/`
-        <td>Gesamtkosten</td>
-        <td>${totalCost.toFixed(2)}</td>
+        <td><b>Gesamtkosten</b></td>
+        <td>${totalCost.toFixed(2)} €</td>
     `;
 }
 
@@ -316,5 +304,56 @@ function orderNow() {
             <p><b>Bezahlen</b></p>
             <p><b>(${total.toFixed(2)} €)</b></p>
         </button>
+    `;
+}
+
+function mobileVersion() {
+    let mediaQuery = window.matchMedia('(max-width : 800px)');
+    let close = document.getElementById('close-section');
+    let menucard = document.getElementById('content');
+    if (mediaQuery.matches) {
+        close.classList.remove('d-none');
+        menucard.classList.add('d-none');
+    } else {
+        close.classList.add('d-none');
+    }
+    cartButtonMedia();
+}
+
+function init() {
+    mobileVersion();
+    window.addEventListener('resize', function() {
+        mobileVersion();
+    });
+    
+    window.addEventListener('load', function() {
+        mobileVersion();
+    });
+}
+
+function closeCart() {
+    let cart = document.getElementById('cart');
+    let menucard = document.getElementById('content');
+    let button = document.getElementById('open-cart');
+    let cartButton = cartButtonMedia();
+    cart.classList.add('d-none');
+    menucard.classList.remove('d-none');
+}
+
+function openCartMedia() {
+    let openCart = document.getElementById('cart');
+    let menucard = document.getElementById('content');
+    let buttonM = document.getElementById('open-cart-media');
+    openCart.classList.remove('d-none');
+    menucard.classList.add('d-none');
+    buttonM.remove();
+}
+
+function cartButtonMedia() {
+    let button = document.getElementById('open-cart');
+    let total = calcTotal();
+    button.innerHTML = /*html*/`
+        <p><b>Warenkorb anzeigen</b></p>
+        <p><b>(${total.toFixed(2)} €)</b></p>
     `;
 }

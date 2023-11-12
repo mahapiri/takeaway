@@ -12,7 +12,7 @@
   <body onload="renderContent()" class="body-info">
     <header class="atf">
         <div class="logo-section">
-          <img src="img/button/logo.png" alt="takeaway logo" class="logo">
+          <img src="img/button/logo.png" alt="takeaway logo" class="logo" onclick="location.href='/index.html'">
           <a href="index.html" class="logo-name"><h1>Take Away</h1></a>
         </div>
         <div>
@@ -34,7 +34,7 @@
               <img src="img/button/starfill.png" alt="" class="star">
               <img src="img/button/starfill.png" alt="" class="star">
               <img src="img/button/starfill.png" alt="" class="star">
-              <img src="img/button/starline.png" alt="" class="star">
+              <img src="img/button/starfill.png" alt="" class="star">
               <a href="#" class="reviews">154 Bewertungen</a>
             </div>
           </div>
@@ -52,6 +52,9 @@
       </div>
       <div class="cart" id="cart"></div>
     </div>
-    <footer>copyright 2023 Piri</footer>
+    <div class="open-cart-media" id="open-cart-media">
+      <div class="open-cart-button" id="open-cart" onclick="openCartMedia()"></div>
+    </div>
+    <footer>copyright 2023 Take Away</footer>
   </body>
 </html>

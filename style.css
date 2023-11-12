@@ -7,7 +7,7 @@ body {
 }
 
 header {
-  z-index: 999;
+  z-index: 1;
   height: 78px;
   background-color: rgb(255, 128, 0);
   border-bottom: 1px solid lightgray;
@@ -18,6 +18,7 @@ header {
   filter: brightness(0) invert(1);
   height: 36px;
   margin-right: 8px;
+  cursor: pointer;
 }
 
 .logo-name {
@@ -109,11 +110,7 @@ header {
 .content-menu-b {
   text-decoration: none;
   color: black;
-  border-end-end-radius: 20%;
-  border-top-right-radius: 20%;
-  border-bottom-left-radius: 20%;
-  border-top-left-radius: 20%;
-  padding: 8px;
+  padding-top: 8px;
 }
 
 .content-menu-b:hover {
@@ -257,6 +254,9 @@ footer {
   align-items: center;
 }
 
+.price-section {
+  margin-top: 16px;
+}
 /* Cart-Section */
 
 .cart {
@@ -264,13 +264,20 @@ footer {
   flex-direction: column;
   align-items: center;
   padding-top: 16px;
-  height: 100vh;
+  max-height: 140vh;
   width: 35%;
   background-color: transparent;
   position: sticky;
   top: 0;
   box-shadow: 4px 0px 12px -6px rgba(0,0,0,0.75);
   border-left: 1px solid rgba(211, 211, 211, 0.2);
+}
+
+.empty-cart {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+  text-align: center;
 }
 
 .bicycle-button {
@@ -288,15 +295,17 @@ footer {
   align-items: center;
   justify-content: flex-start;
   height: 58px;
-  width: 60%;
+  width: 55%;
   border-radius: 47px;
   background-color: white;
   margin-right: 16px;
   margin-left: 4px;
+  padding-right: 16px;
 }
 
 .delivery-img-section p {
   margin: 0;
+  font-size: 11px;
 }
 
 .takeaway-img-section {
@@ -304,11 +313,15 @@ footer {
   align-items: center;
   justify-content: center;
   margin-right: 16px;
+  cursor: not-allowed;
 }
 
 .takeaway-img-section p {
   margin: 0;
-  margin-right: 16px;
+  margin-right: 11px;
+  width: 50%;
+  font-size: 11px;
+  margin-left: 11px;
 }
 
 .delivery-takeaway-img-section {
@@ -340,24 +353,12 @@ footer {
   align-items: center;
 }
 
-.selectedMeal-section-quantity {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-left: 0px;
-}
-
-.selectedMeal-notice {
-  color: black;
-  width: 50%;
-}
-
 .quantity-cart-card {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    width: 50%;
+    width: 100%;
+    border-bottom: 1px solid rgba(211, 211, 211, 0.25);
 }
 
 .add-meal {
@@ -372,6 +373,23 @@ footer {
     align-items: center;
     font-size: 22px;
     color: black;
+    margin-bottom: 8px;
+}
+
+.add-meal:hover {
+    height: 0px;
+    width: 0px;
+    margin-left: 8px;
+    border: 16px solid rgba(211, 211, 211, 0.4);
+    background-color: rgba(211, 211, 211, 0.4);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    color: black;
+    margin-bottom: 8px;
+    transition: 100ms;
 }
 
 .less-meal {
@@ -386,6 +404,22 @@ footer {
     align-items: center;
     font-size: 22px;
     color: black;
+    margin-bottom: 8px;
+}
+
+.less-meal:hover {
+  height: 0px;
+    width: 0px;
+    margin-right: 8px;
+    border: 16px solid rgba(211, 211, 211, 0.4);
+    background-color: rgba(211, 211, 211, 0.4);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    color: black;
+    margin-bottom: 8px;
 }
 
 .less-meal-section {
@@ -418,6 +452,10 @@ html {
     margin-bottom: 16px;
 }
 
+.free-delivery {
+  margin-top: 16px;
+}
+
 .order-section {
     width: 100%;
     display: flex;
@@ -437,4 +475,102 @@ html {
     color: white;
     gap: 8px;
     cursor: pointer;
+}
+
+.close-cart {
+  height: 0px;
+    width: 0px;
+    margin-right: 8px;
+    border: 16px solid rgba(211, 211, 211, 0.2);
+    background-color: rgba(211, 211, 211, 0.2);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    color: black;
+    margin-bottom: 8px;
+    text-decoration: none;
+}
+
+.close-section {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 48px;
+}
+
+.d-none {
+  display: none;
+}
+
+@media (max-width: 800px) {
+  .cart {
+    width: 100%;
+  }
+  .quantity-cart-card {
+    justify-content: center;
+  }
+  .selectedMeal-section-title {
+    justify-content: space-evenly;
+  }
+  .lang-icon {
+    margin-right: 16px;
+  }
+  .logo-name {
+    display: none;
+  }
+  .content {
+    width: 100%;
+  }
+  .content-u1 {
+    padding: 4px;
+    margin-right: 8px;
+  }
+  .content-menu {
+    justify-content: space-around;
+    gap: 16px;
+  }
+  .menu-img {
+    height: 124px;
+  }
+  .menubox {
+    flex-direction: column;
+  }
+  .plus-button {
+    margin-top: 16px;
+  }
+  .price-sign {
+    margin-top: 16px;
+  }
+  .menu-img {
+    margin-top: 16px;
+  }
+
+  .open-cart-button {
+    width: 164px;
+    height: 48px;
+    background-color: rgb(255, 128, 0);
+    border: 1px solid rgba(211, 211, 211, 0.4);
+    border-radius: 50px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .open-cart-button p {
+    margin: 2px;
+  }
+}
+
+.open-cart-media {
+  width: 100%;
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 32px;
 }
