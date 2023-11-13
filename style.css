@@ -173,11 +173,15 @@ header {
 
 footer {
   height: 48px;
+  width: 100%;
   background-color: rgb(255, 128, 0);
   display: flex;
   justify-content: center;
   align-items: center;
   color: white;
+  position: fixed;
+  bottom: 0;
+
 }
 
 /* Menu Box */
@@ -264,7 +268,7 @@ footer {
   flex-direction: column;
   align-items: center;
   padding-top: 16px;
-  max-height: 140vh;
+  height: 140vh;
   width: 35%;
   background-color: transparent;
   position: sticky;
