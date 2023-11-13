@@ -547,7 +547,7 @@ html {
     margin-top: 16px;
   }
 
-  .open-cart-button {
+  .cart-button {
     width: 164px;
     height: 48px;
     background-color: rgb(255, 128, 0);
@@ -560,7 +560,7 @@ html {
     justify-content: center;
     align-items: center;
   }
-  .open-cart-button p {
+  .cart-button p {
     margin: 2px;
   }
 }
@@ -568,9 +568,9 @@ html {
 .open-cart-media {
   width: 100%;
   position: sticky;
-  bottom: 0;
+  bottom: 64px;
   left: 0;
   display: flex;
   justify-content: center;
-  padding-bottom: 32px;
+  background-color: transparent;
 }

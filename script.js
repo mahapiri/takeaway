@@ -72,8 +72,7 @@ loadCart();
 function renderContent() {
     renderCart();
     renderMenucard();
-    init();
-    
+    init(); 
 }
 
 function renderMenucard() {
@@ -180,7 +179,7 @@ function addToCart(i) {
     loadCart();
     showCart();
     showCartTotal();
-    cartButtonMedia();
+    updateCart();
 }
 
 function saveCart() {
@@ -307,19 +306,6 @@ function orderNow() {
     `;
 }
 
-function mobileVersion() {
-    let mediaQuery = window.matchMedia('(max-width : 800px)');
-    let close = document.getElementById('close-section');
-    let menucard = document.getElementById('content');
-    if (mediaQuery.matches) {
-        close.classList.remove('d-none');
-        menucard.classList.add('d-none');
-    } else {
-        close.classList.add('d-none');
-    }
-    cartButtonMedia();
-}
-
 function init() {
     mobileVersion();
     window.addEventListener('resize', function() {
@@ -331,29 +317,62 @@ function init() {
     });
 }
 
-function closeCart() {
+function mobileVersion() {
+    let mediaQuery = window.matchMedia('(max-width : 800px)');
     let cart = document.getElementById('cart');
-    let menucard = document.getElementById('content');
-    let button = document.getElementById('open-cart');
-    let cartButton = cartButtonMedia();
+    let button = document.getElementById('show-cart-button');
+    if (mediaQuery.matches) {
+        cart.classList.add('d-none');
+        showCartButton();
+    } else {
+        cart.classList.remove('d-none');
+        button.remove();
+    }
+}
+
+function showCartButton() {
+    let total = calcTotal();
+    let button = document.getElementById('show-cart-button-section');
+    button.classList.remove('d-none');
+    button.innerHTML = /*html*/`
+        <div class="cart-button" onclick="openShowCart()" id="show-cart-button">
+            <p><b>Warenkorb anzeigen</b></p>
+            <p><b>(${total.toFixed(2)} €)</b></p>
+        </div>   
+    `;
+}
+
+function openShowCart() {
+    let cart = document.getElementById('cart');
+    let content = document.getElementById('content');
+    let button = document.getElementById('show-cart-button');
+    let closeButton = document.getElementById('close-section');
+    cart.classList.remove('d-none');
+    content.classList.add('d-none');
+    closeButton.classList.remove('d-none');
+    button.remove();
+}
+
+function closeCart() {
+    let content = document.getElementById('content');
+    let cart = document.getElementById('cart');
+    let button = document.getElementById('show-cart-button-section');
+    let total = calcTotal();
+    content.classList.remove('d-none');
     cart.classList.add('d-none');
-    menucard.classList.remove('d-none');
+    button.innerHTML ='';
+    button.innerHTML = /*html*/`
+        <div class="cart-button" onclick="openShowCart()" id="show-cart-button">
+            <p><b>Warenkorb anzeigen</b></p>
+            <p id="total-cart-button"><b>(${total.toFixed(2)} €)</b></p>
+        </div>   
+    `;
 }
 
-function openCartMedia() {
-    let openCart = document.getElementById('cart');
-    let menucard = document.getElementById('content');
-    let buttonM = document.getElementById('open-cart-media');
-    openCart.classList.remove('d-none');
-    menucard.classList.add('d-none');
-    buttonM.remove();
-}
-
-function cartButtonMedia() {
-    let button = document.getElementById('open-cart');
+function updateCart() {
+    let button = document.getElementById('total-cart-button');
     let total = calcTotal();
     button.innerHTML = /*html*/`
-        <p><b>Warenkorb anzeigen</b></p>
-        <p><b>(${total.toFixed(2)} €)</b></p>
+        <p id="total-cart-button"><b>(${total.toFixed(2)} €)</b></p>
     `;
 }
