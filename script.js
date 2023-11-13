@@ -105,7 +105,7 @@ function renderMenucard() {
 function renderCart() {
     let cartItem = document.getElementById('cart');
     cartItem.innerHTML = /*html*/`
-        <div class="close-section d-none" id="close-section"><a href="#" class="close-cart" onclick="closeCart()">X</a></div>
+        <div class="close-section" id="close-section"></div>
         <h2>Warenkorb</h2>
         <div class="delivery-takeaway-img-section">
             <div class="delivery-img-section">
@@ -180,6 +180,7 @@ function addToCart(i) {
     showCart();
     showCartTotal();
     updateCart();
+    mobileVersion();
 }
 
 function saveCart() {
@@ -208,6 +209,7 @@ function deleteItem(i) {
     saveCart();
     loadCart();
     renderCart();
+    closeButton();
 }
 
 function addItem(i) {
@@ -217,6 +219,7 @@ function addItem(i) {
     saveCart();
     loadCart();
     renderCart();
+    closeButton();
 }
 
 function showCartTotal() {
@@ -299,7 +302,7 @@ function orderNow() {
     let content = document.getElementById('order-section');
     let total = calcTotal();
     content.innerHTML = /*html*/`
-        <button class="order-button">
+        <button class="order-button" onclick="finishOrder()">
             <p><b>Bezahlen</b></p>
             <p><b>(${total.toFixed(2)} €)</b></p>
         </button>
@@ -320,13 +323,20 @@ function init() {
 function mobileVersion() {
     let mediaQuery = window.matchMedia('(max-width : 800px)');
     let cart = document.getElementById('cart');
+    let content = document.getElementById('content');
     let button = document.getElementById('show-cart-button');
+    let close = document.getElementById('close-section');
     if (mediaQuery.matches) {
         cart.classList.add('d-none');
+        content.classList.remove('d-none');
         showCartButton();
+        close.classList.remove('d-none');
+        closeButton();
     } else {
         cart.classList.remove('d-none');
-        button.remove();
+        content.classList.remove('d-none');
+        removeButton();
+        close.classList.add('d-none');
     }
 }
 
@@ -357,22 +367,52 @@ function closeCart() {
     let content = document.getElementById('content');
     let cart = document.getElementById('cart');
     let button = document.getElementById('show-cart-button-section');
-    let total = calcTotal();
     content.classList.remove('d-none');
     cart.classList.add('d-none');
     button.innerHTML ='';
     button.innerHTML = /*html*/`
         <div class="cart-button" onclick="openShowCart()" id="show-cart-button">
             <p><b>Warenkorb anzeigen</b></p>
-            <p id="total-cart-button"><b>(${total.toFixed(2)} €)</b></p>
+            <p id="total-cart-button"><b></b></p>
         </div>   
     `;
+    updateCart();
 }
 
 function updateCart() {
     let button = document.getElementById('total-cart-button');
-    let total = calcTotal();
-    button.innerHTML = /*html*/`
-        <p id="total-cart-button"><b>(${total.toFixed(2)} €)</b></p>
+    if (button) {
+        let total = calcTotal();
+        button.innerHTML = /*html*/`
+            <p id="total-cart-button"><b>(${total.toFixed(2)} €)</b></p>
+        `;
+    } else {
+        closeCart();
+    }
+}
+
+// function inits() {
+//     let valiade = init();
+//     window.setTimeout(valiade, 10)
+// }
+
+function closeButton() {
+    let close = document.getElementById('close-section');
+    if (window.matchMedia('(max-width : 800px)').matches) {
+        close.innerHTML = /*html*/`
+        <a href="#" class="close-cart" onclick="closeCart()">X</a></div>
     `;
+    }
+}
+
+function removeButton() {
+    let button = document.getElementById('show-cart-button');
+    if (button && button.parentNode) {
+        button.parentNode.removeChild(button);
+    }
+}
+
+function finishOrder() {
+    let content = document.getElementById('main-section');
+    content.innerHTML = `<div class="end"><div>Vielen Dank für die Bestellung</div></div>`;
 }
