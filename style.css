@@ -452,6 +452,7 @@ html {
     flex-direction: column;
     align-items: center;
     margin-top: 16px;
+    margin-left: 16px;
 }
 
 .total-section table {
@@ -587,4 +588,5 @@ html {
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 24px;
 }

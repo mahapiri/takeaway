@@ -65,9 +65,11 @@ let articles =
         }
 ];
 
+
 let cart = [];
 let deliveryCost = 4.95;
 loadCart();
+
 
 function renderContent() {
     renderCart();
@@ -75,32 +77,42 @@ function renderContent() {
     init(); 
 }
 
+
 function renderMenucard() {
     let menucard = document.getElementById('menucard');
     menucard.innerHTML = '';
-
     for (let i = 0; i < articles.length; i++) {
         let article = articles[i];
-        menucard.innerHTML += /*html*/`
-        <div class="menubox" id="menubox${i}">
-            <div class="menu-section">
-                <div class="menu-title">
-                    <div class="menu-title-undersection">
-                        <h4 id="menu${i}">${article['menu']}</h4>
-                        <img src="img/button/info.png" alt="info button" class="info-button-menu">
-                    </div>
-                    <span>${article['description']}</span>
-                </div>
-                <span id="price${i}" class="price-sign"><b>${article['price']} €</b></span>
-            </div>
-            <div class="menu-img-section">
-                <img src="${article['menuImg']}" alt="" class="menu-img">
-            </div>
-            <a href="javascript: void(0);" onclick="addToCart(${i})"><img src="img/button/plus.png" alt="" class="plus-button" id="plus${i}"></a>
-        </div>    
-        `;
+        menucard.innerHTML += showMenuCard(article, i);
     }
 }
+
+
+function showMenuCard(article, i) {
+    return /*html*/`
+    <div class="menubox" id="menubox${i}">
+        <div class="menu-section">
+            ${showMenuTitle(article, i)}
+            <span id="price${i}" class="price-sign"><b>${article['price']} €</b></span>
+        </div>
+        <div class="menu-img-section"><img src="${article['menuImg']}" alt="" class="menu-img"></div>
+        <a href="javascript: void(0);" onclick="addToCart(${i})"><img src="img/button/plus.png" alt="" class="plus-button" id="plus${i}"></a>
+    </div>`;
+}
+
+
+function showMenuTitle(article, i) {
+    return /*html*/`
+        <div class="menu-title">
+            <div class="menu-title-undersection">
+                <h4 id="menu${i}">${article['menu']}</h4>
+                <img src="img/button/info.png" alt="info button" class="info-button-menu">
+            </div>
+            <span>${article['description']}</span>
+        </div>
+    `;
+}
+
 
 function renderCart() {
     let cartItem = document.getElementById('cart');
@@ -108,20 +120,7 @@ function renderCart() {
         <div class="close-section" id="close-section"></div>
         <h2>Warenkorb</h2>
         <div class="delivery-takeaway-img-section">
-            <div class="delivery-img-section">
-                <img src="img/button/bicycle.png" alt="delivery" class="bicycle-button">
-                <div>
-                    <p>Lieferung</p>
-                    <p>30-45 min</p>
-                </div>
-            </div>
-            <div class="takeaway-img-section">
-                <img src="img/button/bag.png" alt="cart" class="takeaway-button">
-                <div>
-                    <p>Abholung</p>
-                    <p></p>
-                </div>
-            </div>
+            ${showDeliveryBar()}
         </div>
         <div id="getaddmenu" class="cart-menu-card"></div>
         <div id="total-section" class="total-section"></div>
@@ -130,50 +129,94 @@ function renderCart() {
     showCart();
 }
 
+
+function showDeliveryBar() {
+    return `
+        ${showDeliverySection()}
+        ${showTakeawaySection()}
+    `;  
+}
+
+
+function showDeliverySection() {
+    return /*html*/`
+        <div class="delivery-img-section">
+                <img src="img/button/bicycle.png" alt="delivery" class="bicycle-button">
+                <div>
+                    <p>Lieferung</p>
+                    <p>30-45 min</p>
+                </div>
+        </div>
+    `;
+}
+
+
+function showTakeawaySection() {
+    return /*html*/`
+        <div class="takeaway-img-section">
+            <img src="img/button/bag.png" alt="cart" class="takeaway-button">
+            <div>
+                <p>Abholung</p>
+                <p></p>
+            </div>
+        </div>
+    `;
+}
+
+
 function showCart() {
     let getAddMenu = document.getElementById('getaddmenu');
     getAddMenu.innerHTML = '';
 
     if (cart.length === 0) {
-        getAddMenu.innerHTML = '<div class="empty-cart"><img src=""><div><b>Wählen Sie ein Essen</br>aus unserem Menü aus</b></div></div>';
+        getAddMenu.innerHTML = showEmptyCart();
     } else {
         getAddMenu.innerHTML = '';
         for (let i = 0; i < cart.length; i++) {
             let item = cart[i];
-            getAddMenu.innerHTML += /*html*/`
-            <div class="selectedMeal">     
-                <div class="selectedMeal-section-title">
-                    <span><b>${item['quantities']}x </b>${item['menus']}</span>
-                    <p><b>${item['prices'].toFixed(2)} €</b></p>
-                </div>
-                <div class="quantity-cart-card">
-                        <a href="javascript: void(0);" class="less-meal-section" onclick="deleteItem(${i})"><div class="less-meal">-</div></a>
-                        <div>Menge</div>
-                        <a href="javascript: void(0);" class="add-meal-section" onclick="addItem(${i})"><div class="add-meal" >+</div></a>
-                </div>                
-            </div>  
-        `;       
+            getAddMenu.innerHTML += showCartlist(item, i);
         }
         showCartTotal();
     }
     
 }
 
+
+function showEmptyCart() {
+    return /*html*/`
+        <div class="empty-cart">
+            <div>
+                <b>Wählen Sie ein Essen</br>aus unserem Menü aus</b>
+            </div>
+        </div>
+    `;
+}
+
+
+function showCartlist(item, i) {
+    return /*html*/`
+        <div class="selectedMeal">     
+            <div class="selectedMeal-section-title">
+                <span><b>${item['quantities']}x </b>${item['menus']}</span>
+                <p><b>${item['prices'].toFixed(2)} €</b></p>
+            </div>
+            <div class="quantity-cart-card">
+                    <a href="javascript: void(0);" class="less-meal-section" onclick="deleteItem(${i})"><div class="less-meal">-</div></a>
+                    <div>Menge</div>
+                    <a href="javascript: void(0);" class="add-meal-section" onclick="addItem(${i})"><div class="add-meal" >+</div></a>
+            </div>                
+        </div>         
+    `;
+}
+
+
 function addToCart(i) {
     let article = articles[i];
-    let cartIndex = cart.findIndex(
-        function(item) {
-        return item.menus === article.menu;
-    });
+    let cartIndex = findIndexInCart(article);
     if (cartIndex !== -1) {
-        cart[cartIndex].quantities++;
-        cart[cartIndex].prices = article.price * cart[cartIndex].quantities;
+        addQuantitytoCart(cartIndex, article);
     } else {
-        cart.push({
-            'menus': article.menu,
-            'prices': article.price,
-            'quantities': article.quantity,
-        });
+        addNewToCart(article);
     }
     saveCart();
     loadCart();
@@ -183,10 +226,32 @@ function addToCart(i) {
     mobileVersion();
 }
 
+
+function findIndexInCart(article) {
+    return cart.findIndex(item => item.menus === article.menu);
+}
+
+
+function addQuantitytoCart(cartIndex, article) {
+    cart[cartIndex].quantities++;
+    cart[cartIndex].prices = article.price * cart[cartIndex].quantities;
+}
+
+
+function addNewToCart(article) {
+    cart.push({
+        'menus': article.menu,
+        'prices': article.price,
+        'quantities': article.quantity,
+    });
+}
+
+
 function saveCart() {
     let cartAsText = JSON.stringify(cart);
     localStorage.setItem('cart', cartAsText);
 }
+
 
 function loadCart() {
     if (localStorage.getItem('cart') === null) {
@@ -196,6 +261,7 @@ function loadCart() {
         cart = JSON.parse(cartAsText);
     }
 }
+
 
 function deleteItem(i) {
     let item = cart[i];
@@ -212,6 +278,7 @@ function deleteItem(i) {
     closeButton();
 }
 
+
 function addItem(i) {
     let item = cart[i];
     item.quantities++;
@@ -222,9 +289,21 @@ function addItem(i) {
     closeButton();
 }
 
+
 function showCartTotal() {
     let total = document.getElementById('total-section');
     total.innerHTML = /*html*/`
+        ${renderTotalSection()}
+    `;
+    showSubtotal();
+    showDeliveryCost();
+    showTotal();
+    orderNow();
+}
+
+
+function renderTotalSection() {
+    return /*html*/`
         <table>
             <tr id="subtotal"></tr>
             <tr id="delivery"></tr>
@@ -233,10 +312,6 @@ function showCartTotal() {
         </table>
         <div id="order-section" class="order-section"></div>
     `;
-    showSubtotal();
-    showDeliveryCost();
-    showTotal();
-    orderNow();
 }
     
 
@@ -244,12 +319,11 @@ function calcSubtotal() {
     let sum = 0;
     for (let i = 0; i < cart.length; i++) {
         let items = cart[i];
-    
         sum = sum + items.prices;
-        
     };
     return sum;
 }
+
 
 function showSubtotal() {
     let content = document.getElementById('subtotal');
@@ -260,21 +334,30 @@ function showSubtotal() {
     `;
 }
 
+
 function showDeliveryCost() {
     let content = document.getElementById('delivery');
     let delivery = deliveryCost;
     let subtotal = calcSubtotal();
     if (subtotal > 30) {
-        content.innerHTML = /*html*/`
+        content.innerHTML = showFreeDelivery();
+    } else {
+        content.innerHTML = showDeliveryCostHtml(delivery);
+    }
+}
+
+function showFreeDelivery() {
+    return /*html*/`
         <td><b>Lieferkosten</b></td>
         <td>Kostenlose Lieferung</td>
     `;
-    } else {
-        content.innerHTML = /*html*/`
+}
+
+function showDeliveryCostHtml(delivery) {
+    return /*html*/`
         <td><b>Lieferkosten</b></td>
         <td>${delivery.toFixed(2)} €</td>
     `;
-    }
 }
     
 
@@ -287,6 +370,7 @@ function showTotal() {
     `;
 }
 
+
 function calcTotal() {
     let subtotal = calcSubtotal();
     
@@ -297,6 +381,7 @@ function calcTotal() {
         return totalCost;
     }
 }
+
 
 function orderNow() {
     let content = document.getElementById('order-section');
@@ -309,6 +394,7 @@ function orderNow() {
     `;
 }
 
+
 function init() {
     mobileVersion();
     window.addEventListener('resize', function() {
@@ -320,37 +406,68 @@ function init() {
     });
 }
 
+
 function mobileVersion() {
     let mediaQuery = window.matchMedia('(max-width : 800px)');
     let cart = document.getElementById('cart');
     let content = document.getElementById('content');
-    let button = document.getElementById('show-cart-button');
     let close = document.getElementById('close-section');
     if (mediaQuery.matches) {
-        cart.classList.add('d-none');
-        content.classList.remove('d-none');
-        showCartButton();
-        close.classList.remove('d-none');
-        closeButton();
+        mediaQueryMatched(cart, content, close);
     } else {
-        cart.classList.remove('d-none');
-        content.classList.remove('d-none');
-        removeButton();
-        close.classList.add('d-none');
+        mediaQueryNotMatched(cart, content, close);
     }
 }
+
+
+function mediaQueryMatched(cart, content, close) {
+    cart.classList.add('d-none');
+    content.classList.remove('d-none');
+    showCartButton();
+    close.classList.remove('d-none');
+    closeButton();
+}
+
+
+function mediaQueryNotMatched(cart, content, close) {
+    cart.classList.remove('d-none');
+    content.classList.remove('d-none');
+    removeButton();
+    close.classList.add('d-none');
+}
+
 
 function showCartButton() {
     let total = calcTotal();
     let button = document.getElementById('show-cart-button-section');
     button.classList.remove('d-none');
-    button.innerHTML = /*html*/`
+
+    if (total > 4.95) {
+        button.innerHTML = showMediaCartButton(total);
+    } else {
+        button.innerHTML = showMediaCartButtonIfZero();
+    }
+}
+
+
+function showMediaCartButton(total) {
+    return /*html*/`
         <div class="cart-button" onclick="openShowCart()" id="show-cart-button">
             <p><b>Warenkorb anzeigen</b></p>
             <p><b>(${total.toFixed(2)} €)</b></p>
         </div>   
     `;
 }
+
+
+function showMediaCartButtonIfZero() {
+    return /*html*/`
+        <div class="cart-button" onclick="openShowCart()" id="show-cart-button">
+            <p><b>Warenkorb anzeigen</b></p>
+        </div>   
+    `;
+}
+
 
 function openShowCart() {
     let cart = document.getElementById('cart');
@@ -363,6 +480,7 @@ function openShowCart() {
     button.remove();
 }
 
+
 function closeCart() {
     let content = document.getElementById('content');
     let cart = document.getElementById('cart');
@@ -370,14 +488,20 @@ function closeCart() {
     content.classList.remove('d-none');
     cart.classList.add('d-none');
     button.innerHTML ='';
-    button.innerHTML = /*html*/`
+    button.innerHTML = showUpdatedCartIfClose();
+    updateCart();
+}
+
+
+function showUpdatedCartIfClose() {
+    return /*html*/`
         <div class="cart-button" onclick="openShowCart()" id="show-cart-button">
             <p><b>Warenkorb anzeigen</b></p>
             <p id="total-cart-button"><b></b></p>
-        </div>   
+        </div>  
     `;
-    updateCart();
 }
+
 
 function updateCart() {
     let button = document.getElementById('total-cart-button');
@@ -391,10 +515,6 @@ function updateCart() {
     }
 }
 
-// function inits() {
-//     let valiade = init();
-//     window.setTimeout(valiade, 10)
-// }
 
 function closeButton() {
     let close = document.getElementById('close-section');
@@ -405,6 +525,7 @@ function closeButton() {
     }
 }
 
+
 function removeButton() {
     let button = document.getElementById('show-cart-button');
     if (button && button.parentNode) {
@@ -412,7 +533,10 @@ function removeButton() {
     }
 }
 
+
 function finishOrder() {
     let content = document.getElementById('main-section');
-    content.innerHTML = `<div class="end"><div>Vielen Dank für die Bestellung</div></div>`;
+    content.innerHTML = /*html*/`
+        <div class="end"><div>Vielen Dank für die Bestellung!</div></div>
+    `;
 }
